@@ -17,8 +17,8 @@
 		</commentGenerator>
 
 		<jdbcConnection driverClass="com.mysql.jdbc.Driver"
-			connectionURL="jdbc:mysql://ip:3306/museum"
-			userId="user" password="pass">
+			connectionURL="jdbc:mysql://115.29.140.80:3306/museum"
+			userId="museum" password="museum123">
 		</jdbcConnection>
 
 		<javaModelGenerator targetPackage="com.museum.api.common.orm.model"
