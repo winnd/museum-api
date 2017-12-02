@@ -5,6 +5,7 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.github.pagehelper.PageInfo;
+import com.museum.api.common.annotation.Authorization;
 import com.museum.api.common.constant.Constants;
 import com.museum.api.common.controller.BaseController;
 import com.museum.api.common.exception.InheaterSOAException;
@@ -57,6 +58,7 @@ public class RelicController extends BaseController{
      * 添加一个展品(模板)
      * @return
      */
+    @Authorization
     @RequestMapping(value = "/management/template", method = RequestMethod.GET)
     public @ResponseBody BaseModel<HashMap<String, Integer>> generateOneRelic() {
 
@@ -93,6 +95,7 @@ public class RelicController extends BaseController{
     /**
      * 更新藏品信息
      */
+    @Authorization
     @RequestMapping(value = "management", method = RequestMethod.PUT)
     public @ResponseBody BaseModel<String> updateRelic() {
         BaseModel<String> result = new BaseModel<>();
@@ -125,6 +128,7 @@ public class RelicController extends BaseController{
      * 根据ID删除展品
      * @return
      */
+    @Authorization
     @RequestMapping(value = "/management/id/{relicId}", method = RequestMethod.DELETE)
     public @ResponseBody BaseModel<String> removeOneRelic(@PathVariable Integer relicId) {
 
@@ -154,6 +158,7 @@ public class RelicController extends BaseController{
     /**
      * 根据需求获取产品
      */
+    @Authorization
     @RequestMapping(value = "/resources", method = RequestMethod.POST)
     public @ResponseBody BaseModel<List<RelicInfoVO>> getRelicBySearchVO() {
         BaseModel<List<RelicInfoVO>> result = new BaseModel<>();
@@ -191,6 +196,7 @@ public class RelicController extends BaseController{
     /**
      * 登记展品图片
      */
+    @Authorization
     @RequestMapping(value = "management/image", method = RequestMethod.POST)
     public @ResponseBody BaseModel<String> addRelicImage(){
 
@@ -225,6 +231,7 @@ public class RelicController extends BaseController{
     /**
      * 删除展品图片
      */
+    @Authorization
     @RequestMapping(value = "management/image", method = RequestMethod.DELETE)
     public @ResponseBody BaseModel<String> removeRelicImage(){
 

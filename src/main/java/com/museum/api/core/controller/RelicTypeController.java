@@ -2,6 +2,7 @@ package com.museum.api.core.controller;
 
 import javax.annotation.Resource;
 
+import com.museum.api.common.annotation.Authorization;
 import com.museum.api.common.orm.model.RelicType;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -26,6 +27,7 @@ public class RelicTypeController extends BaseController{
     /**
      * 增加一个分类
      */
+	@Authorization
 	@RequestMapping(value = "/management", method = RequestMethod.POST)
 	public @ResponseBody BaseModel<String> addOneRelicType() {
 		BaseModel<String> result = new BaseModel<>();
@@ -57,6 +59,7 @@ public class RelicTypeController extends BaseController{
     /**
      * 删除一个分类
      */
+	@Authorization
 	@RequestMapping(value = "/management/{relicTypeId}", method = RequestMethod.DELETE)
     public @ResponseBody BaseModel<String> removeOneRelicType(@PathVariable Integer relicTypeId) {
 
@@ -77,6 +80,7 @@ public class RelicTypeController extends BaseController{
 	/**
 	 * 获取所有分类
 	 */
+	@Authorization
 	@RequestMapping(value = "/resources", method = RequestMethod.GET)
 	public @ResponseBody BaseModel<List<RelicType>> getAllRelicType() {
 

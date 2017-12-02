@@ -87,6 +87,8 @@ public class UserController extends BaseController {
 
             result.setData(user);
 
+            user.setPassword("");
+
             return result;
 
         }

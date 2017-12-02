@@ -1,5 +1,9 @@
 package com.museum.api.common.token;
 
+import com.auth0.jwt.JWT;
+import com.auth0.jwt.algorithms.Algorithm;
+import com.auth0.jwt.exceptions.JWTDecodeException;
+import com.auth0.jwt.interfaces.DecodedJWT;
 import com.museum.api.common.constant.Constants;
 import com.museum.api.core.vo.TokenModel;
 import org.apache.log4j.Logger;
@@ -7,6 +11,7 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
+import java.io.UnsupportedEncodingException;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
@@ -21,7 +26,16 @@ public class RedisTokenManager implements TokenManager {
     @Override
     public TokenModel createToken(Integer userId) {
 
-        String token = UUID.randomUUID().toString().replace("-", "");
+        String token = "";
+
+        try {
+            Algorithm algorithm = Algorithm.HMAC256(Constants.SECRET);
+
+            token = JWT.create().withClaim("userId", userId).withClaim("timeStamp", System.currentTimeMillis()   ).sign(algorithm);
+
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
 
         TokenModel tokenModel = new TokenModel(userId, token);
 
@@ -32,7 +46,7 @@ public class RedisTokenManager implements TokenManager {
 
     @Override
     public boolean checkToken(TokenModel tokenModel) {
-        if(tokenModel == null) {
+        if(tokenModel == null || tokenModel.getUserId() == null) {
             return false;
         }
 
@@ -50,23 +64,32 @@ public class RedisTokenManager implements TokenManager {
     @Override
     public TokenModel getToken(String authentication) {
 
-        logger.info(authentication + "-----");
+        logger.info("用户token为 " + authentication);
 
         if(authentication == null || "".equals(authentication)) {
             return null;
         }
+        TokenModel tokenModel = new TokenModel();
 
-        String[] params = authentication.split("_");
+        try {
+            DecodedJWT jwt = JWT.decode(authentication);
 
-        if(params.length != 2) {
-            return null;
+            Integer userId = jwt.getClaim("userId").asInt();
+
+            if(userId == null) {
+                return null;
+            }
+
+            tokenModel.setToken(authentication);
+            tokenModel.setUserId(userId);
+
+        }
+        catch (JWTDecodeException e) {
+            e.printStackTrace();
         }
 
-        Integer userId = Integer.valueOf(params[0]);
 
-        String token = params[1];
-
-        return new TokenModel(userId, token);
+        return tokenModel;
     }
 
     @Override

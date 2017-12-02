@@ -12,7 +12,7 @@
     <result column="code" jdbcType="VARCHAR" property="code" />
     <result column="relic_type" jdbcType="INTEGER" property="relicType" />
     <result column="amount" jdbcType="VARCHAR" property="amount" />
-    <result column="level" jdbcType="INTEGER" property="level" />
+    <result column="level" jdbcType="VARCHAR" property="level" />
     <result column="size" jdbcType="VARCHAR" property="size" />
     <result column="weight" jdbcType="VARCHAR" property="weight" />
     <result column="attrition_rate" jdbcType="VARCHAR" property="attritionRate" />
@@ -209,7 +209,7 @@
       update_time, protect_value, culture_value, 
       dynasty, introduction)
     values (#{name,jdbcType=VARCHAR}, #{picUrl,jdbcType=VARCHAR}, #{code,jdbcType=VARCHAR}, 
-      #{relicType,jdbcType=INTEGER}, #{amount,jdbcType=VARCHAR}, #{level,jdbcType=INTEGER}, 
+      #{relicType,jdbcType=INTEGER}, #{amount,jdbcType=VARCHAR}, #{level,jdbcType=VARCHAR}, 
       #{size,jdbcType=VARCHAR}, #{weight,jdbcType=VARCHAR}, #{attritionRate,jdbcType=VARCHAR}, 
       #{application,jdbcType=VARCHAR}, #{craft,jdbcType=VARCHAR}, #{material,jdbcType=VARCHAR}, 
       #{shape,jdbcType=VARCHAR}, #{feature,jdbcType=VARCHAR}, #{culturalConnotation,jdbcType=VARCHAR}, 
@@ -324,7 +324,7 @@
         #{amount,jdbcType=VARCHAR},
       </if>
       <if test="level != null">
-        #{level,jdbcType=INTEGER},
+        #{level,jdbcType=VARCHAR},
       </if>
       <if test="size != null">
         #{size,jdbcType=VARCHAR},
@@ -424,7 +424,7 @@
         amount = #{record.amount,jdbcType=VARCHAR},
       </if>
       <if test="record.level != null">
-        `level` = #{record.level,jdbcType=INTEGER},
+        `level` = #{record.level,jdbcType=VARCHAR},
       </if>
       <if test="record.size != null">
         `size` = #{record.size,jdbcType=VARCHAR},
@@ -503,7 +503,7 @@
       code = #{record.code,jdbcType=VARCHAR},
       relic_type = #{record.relicType,jdbcType=INTEGER},
       amount = #{record.amount,jdbcType=VARCHAR},
-      `level` = #{record.level,jdbcType=INTEGER},
+      `level` = #{record.level,jdbcType=VARCHAR},
       `size` = #{record.size,jdbcType=VARCHAR},
       weight = #{record.weight,jdbcType=VARCHAR},
       attrition_rate = #{record.attritionRate,jdbcType=VARCHAR},
@@ -540,7 +540,7 @@
       code = #{record.code,jdbcType=VARCHAR},
       relic_type = #{record.relicType,jdbcType=INTEGER},
       amount = #{record.amount,jdbcType=VARCHAR},
-      `level` = #{record.level,jdbcType=INTEGER},
+      `level` = #{record.level,jdbcType=VARCHAR},
       `size` = #{record.size,jdbcType=VARCHAR},
       weight = #{record.weight,jdbcType=VARCHAR},
       attrition_rate = #{record.attritionRate,jdbcType=VARCHAR},
@@ -587,7 +587,7 @@
         amount = #{amount,jdbcType=VARCHAR},
       </if>
       <if test="level != null">
-        `level` = #{level,jdbcType=INTEGER},
+        `level` = #{level,jdbcType=VARCHAR},
       </if>
       <if test="size != null">
         `size` = #{size,jdbcType=VARCHAR},
@@ -663,7 +663,7 @@
       code = #{code,jdbcType=VARCHAR},
       relic_type = #{relicType,jdbcType=INTEGER},
       amount = #{amount,jdbcType=VARCHAR},
-      `level` = #{level,jdbcType=INTEGER},
+      `level` = #{level,jdbcType=VARCHAR},
       `size` = #{size,jdbcType=VARCHAR},
       weight = #{weight,jdbcType=VARCHAR},
       attrition_rate = #{attritionRate,jdbcType=VARCHAR},
@@ -697,7 +697,7 @@
       code = #{code,jdbcType=VARCHAR},
       relic_type = #{relicType,jdbcType=INTEGER},
       amount = #{amount,jdbcType=VARCHAR},
-      `level` = #{level,jdbcType=INTEGER},
+      `level` = #{level,jdbcType=VARCHAR},
       `size` = #{size,jdbcType=VARCHAR},
       weight = #{weight,jdbcType=VARCHAR},
       attrition_rate = #{attritionRate,jdbcType=VARCHAR},

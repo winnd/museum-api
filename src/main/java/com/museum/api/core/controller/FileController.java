@@ -1,5 +1,6 @@
 package com.museum.api.core.controller;
 
+import com.museum.api.common.annotation.Authorization;
 import com.museum.api.common.constant.Constants;
 import com.museum.api.common.controller.BaseController;
 import com.museum.api.common.orm.model.FileResources;
@@ -126,6 +127,7 @@ public class FileController extends BaseController{
     @Resource
     FileService fileService;
 
+    @Authorization
     @RequestMapping(value = "/management", method = RequestMethod.POST)
     public @ResponseBody BaseModel<FileResources> uploadFile(
             @RequestParam(value = "uploadFile")MultipartFile uploadFile,
