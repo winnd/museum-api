@@ -72,6 +72,20 @@ public class RelicTypeService {
     }
 
 	/**
+	 * 编辑一个分类
+	 * @param relicType
+	 * @return
+	 */
+	@Transactional
+	public int updateOneRelicType(RelicType relicType) {
+
+		return relicTypeMapper.updateByPrimaryKeySelective(relicType);
+
+	}
+
+
+
+	/**
 	 * 获取所有分类
 	 */
 

@@ -32,7 +32,7 @@
           culture_value AS cultureValue,
           dynasty,
           (
-            SELECT group_concat(fr.url) FROM
+            SELECT group_concat(fr.id, "::", fr.url) FROM
               relic_images AS ri
               LEFT JOIN file_resources AS fr
               ON  fr.id = ri.file_id

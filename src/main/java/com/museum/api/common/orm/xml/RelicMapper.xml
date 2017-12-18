@@ -29,8 +29,8 @@
     <result column="create_time" jdbcType="BIGINT" property="createTime" />
     <result column="update_by" jdbcType="INTEGER" property="updateBy" />
     <result column="update_time" jdbcType="BIGINT" property="updateTime" />
-    <result column="protect_value" jdbcType="VARCHAR" property="protectValue" />
-    <result column="culture_value" jdbcType="VARCHAR" property="cultureValue" />
+    <result column="protect_value" jdbcType="INTEGER" property="protectValue" />
+    <result column="culture_value" jdbcType="INTEGER" property="cultureValue" />
     <result column="dynasty" jdbcType="VARCHAR" property="dynasty" />
   </resultMap>
   <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.museum.api.common.orm.model.Relic">
@@ -215,7 +215,7 @@
       #{shape,jdbcType=VARCHAR}, #{feature,jdbcType=VARCHAR}, #{culturalConnotation,jdbcType=VARCHAR}, 
       #{requiredTech,jdbcType=VARCHAR}, #{area,jdbcType=VARCHAR}, #{age,jdbcType=VARCHAR}, 
       #{createBy,jdbcType=INTEGER}, #{createTime,jdbcType=BIGINT}, #{updateBy,jdbcType=INTEGER}, 
-      #{updateTime,jdbcType=BIGINT}, #{protectValue,jdbcType=VARCHAR}, #{cultureValue,jdbcType=VARCHAR}, 
+      #{updateTime,jdbcType=BIGINT}, #{protectValue,jdbcType=INTEGER}, #{cultureValue,jdbcType=INTEGER}, 
       #{dynasty,jdbcType=VARCHAR}, #{introduction,jdbcType=LONGVARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.museum.api.common.orm.model.Relic">
@@ -375,10 +375,10 @@
         #{updateTime,jdbcType=BIGINT},
       </if>
       <if test="protectValue != null">
-        #{protectValue,jdbcType=VARCHAR},
+        #{protectValue,jdbcType=INTEGER},
       </if>
       <if test="cultureValue != null">
-        #{cultureValue,jdbcType=VARCHAR},
+        #{cultureValue,jdbcType=INTEGER},
       </if>
       <if test="dynasty != null">
         #{dynasty,jdbcType=VARCHAR},
@@ -475,10 +475,10 @@
         update_time = #{record.updateTime,jdbcType=BIGINT},
       </if>
       <if test="record.protectValue != null">
-        protect_value = #{record.protectValue,jdbcType=VARCHAR},
+        protect_value = #{record.protectValue,jdbcType=INTEGER},
       </if>
       <if test="record.cultureValue != null">
-        culture_value = #{record.cultureValue,jdbcType=VARCHAR},
+        culture_value = #{record.cultureValue,jdbcType=INTEGER},
       </if>
       <if test="record.dynasty != null">
         dynasty = #{record.dynasty,jdbcType=VARCHAR},
@@ -520,8 +520,8 @@
       create_time = #{record.createTime,jdbcType=BIGINT},
       update_by = #{record.updateBy,jdbcType=INTEGER},
       update_time = #{record.updateTime,jdbcType=BIGINT},
-      protect_value = #{record.protectValue,jdbcType=VARCHAR},
-      culture_value = #{record.cultureValue,jdbcType=VARCHAR},
+      protect_value = #{record.protectValue,jdbcType=INTEGER},
+      culture_value = #{record.cultureValue,jdbcType=INTEGER},
       dynasty = #{record.dynasty,jdbcType=VARCHAR},
       introduction = #{record.introduction,jdbcType=LONGVARCHAR}
     <if test="_parameter != null">
@@ -557,8 +557,8 @@
       create_time = #{record.createTime,jdbcType=BIGINT},
       update_by = #{record.updateBy,jdbcType=INTEGER},
       update_time = #{record.updateTime,jdbcType=BIGINT},
-      protect_value = #{record.protectValue,jdbcType=VARCHAR},
-      culture_value = #{record.cultureValue,jdbcType=VARCHAR},
+      protect_value = #{record.protectValue,jdbcType=INTEGER},
+      culture_value = #{record.cultureValue,jdbcType=INTEGER},
       dynasty = #{record.dynasty,jdbcType=VARCHAR}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
@@ -638,10 +638,10 @@
         update_time = #{updateTime,jdbcType=BIGINT},
       </if>
       <if test="protectValue != null">
-        protect_value = #{protectValue,jdbcType=VARCHAR},
+        protect_value = #{protectValue,jdbcType=INTEGER},
       </if>
       <if test="cultureValue != null">
-        culture_value = #{cultureValue,jdbcType=VARCHAR},
+        culture_value = #{cultureValue,jdbcType=INTEGER},
       </if>
       <if test="dynasty != null">
         dynasty = #{dynasty,jdbcType=VARCHAR},
@@ -680,8 +680,8 @@
       create_time = #{createTime,jdbcType=BIGINT},
       update_by = #{updateBy,jdbcType=INTEGER},
       update_time = #{updateTime,jdbcType=BIGINT},
-      protect_value = #{protectValue,jdbcType=VARCHAR},
-      culture_value = #{cultureValue,jdbcType=VARCHAR},
+      protect_value = #{protectValue,jdbcType=INTEGER},
+      culture_value = #{cultureValue,jdbcType=INTEGER},
       dynasty = #{dynasty,jdbcType=VARCHAR},
       introduction = #{introduction,jdbcType=LONGVARCHAR}
     where id = #{id,jdbcType=INTEGER}
@@ -714,8 +714,8 @@
       create_time = #{createTime,jdbcType=BIGINT},
       update_by = #{updateBy,jdbcType=INTEGER},
       update_time = #{updateTime,jdbcType=BIGINT},
-      protect_value = #{protectValue,jdbcType=VARCHAR},
-      culture_value = #{cultureValue,jdbcType=VARCHAR},
+      protect_value = #{protectValue,jdbcType=INTEGER},
+      culture_value = #{cultureValue,jdbcType=INTEGER},
       dynasty = #{dynasty,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>

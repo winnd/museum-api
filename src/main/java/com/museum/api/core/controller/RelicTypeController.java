@@ -27,7 +27,7 @@ public class RelicTypeController extends BaseController{
     /**
      * 增加一个分类
      */
-	@Authorization
+	@Authorization(authCode = 4)
 	@RequestMapping(value = "/management", method = RequestMethod.POST)
 	public @ResponseBody BaseModel<String> addOneRelicType() {
 		BaseModel<String> result = new BaseModel<>();
@@ -59,7 +59,7 @@ public class RelicTypeController extends BaseController{
     /**
      * 删除一个分类
      */
-	@Authorization
+	@Authorization(authCode = 5)
 	@RequestMapping(value = "/management/{relicTypeId}", method = RequestMethod.DELETE)
     public @ResponseBody BaseModel<String> removeOneRelicType(@PathVariable Integer relicTypeId) {
 
@@ -76,6 +76,32 @@ public class RelicTypeController extends BaseController{
         return result;
 
     }
+
+	/**
+	 * 编辑一个分类
+	 */
+	@Authorization(authCode = 6)
+	@RequestMapping(value = "/management", method = RequestMethod.PUT)
+	public @ResponseBody BaseModel<String> updateOneRelicType() {
+
+		BaseModel<String> result = new BaseModel<>();
+
+		JSONObject json = this.convertRequestBody();
+
+		RelicType relicType = JSONObject.toJavaObject(json, RelicType.class);
+
+		try{
+			relicTypeService.updateOneRelicType(relicType);
+		}
+		catch (InheaterSOAException e) {
+			result.setMessage(e.getMessage());
+			result.setStatus(Constants.FAIL_BUSINESS_ERROR);
+		}
+
+		return result;
+
+	}
+
 
 	/**
 	 * 获取所有分类

@@ -1754,62 +1754,52 @@ public class RelicExample {
             return (Criteria) this;
         }
 
-        public Criteria andProtectValueEqualTo(String value) {
+        public Criteria andProtectValueEqualTo(Integer value) {
             addCriterion("protect_value =", value, "protectValue");
             return (Criteria) this;
         }
 
-        public Criteria andProtectValueNotEqualTo(String value) {
+        public Criteria andProtectValueNotEqualTo(Integer value) {
             addCriterion("protect_value <>", value, "protectValue");
             return (Criteria) this;
         }
 
-        public Criteria andProtectValueGreaterThan(String value) {
+        public Criteria andProtectValueGreaterThan(Integer value) {
             addCriterion("protect_value >", value, "protectValue");
             return (Criteria) this;
         }
 
-        public Criteria andProtectValueGreaterThanOrEqualTo(String value) {
+        public Criteria andProtectValueGreaterThanOrEqualTo(Integer value) {
             addCriterion("protect_value >=", value, "protectValue");
             return (Criteria) this;
         }
 
-        public Criteria andProtectValueLessThan(String value) {
+        public Criteria andProtectValueLessThan(Integer value) {
             addCriterion("protect_value <", value, "protectValue");
             return (Criteria) this;
         }
 
-        public Criteria andProtectValueLessThanOrEqualTo(String value) {
+        public Criteria andProtectValueLessThanOrEqualTo(Integer value) {
             addCriterion("protect_value <=", value, "protectValue");
             return (Criteria) this;
         }
 
-        public Criteria andProtectValueLike(String value) {
-            addCriterion("protect_value like", value, "protectValue");
-            return (Criteria) this;
-        }
-
-        public Criteria andProtectValueNotLike(String value) {
-            addCriterion("protect_value not like", value, "protectValue");
-            return (Criteria) this;
-        }
-
-        public Criteria andProtectValueIn(List<String> values) {
+        public Criteria andProtectValueIn(List<Integer> values) {
             addCriterion("protect_value in", values, "protectValue");
             return (Criteria) this;
         }
 
-        public Criteria andProtectValueNotIn(List<String> values) {
+        public Criteria andProtectValueNotIn(List<Integer> values) {
             addCriterion("protect_value not in", values, "protectValue");
             return (Criteria) this;
         }
 
-        public Criteria andProtectValueBetween(String value1, String value2) {
+        public Criteria andProtectValueBetween(Integer value1, Integer value2) {
             addCriterion("protect_value between", value1, value2, "protectValue");
             return (Criteria) this;
         }
 
-        public Criteria andProtectValueNotBetween(String value1, String value2) {
+        public Criteria andProtectValueNotBetween(Integer value1, Integer value2) {
             addCriterion("protect_value not between", value1, value2, "protectValue");
             return (Criteria) this;
         }
@@ -1824,62 +1814,52 @@ public class RelicExample {
             return (Criteria) this;
         }
 
-        public Criteria andCultureValueEqualTo(String value) {
+        public Criteria andCultureValueEqualTo(Integer value) {
             addCriterion("culture_value =", value, "cultureValue");
             return (Criteria) this;
         }
 
-        public Criteria andCultureValueNotEqualTo(String value) {
+        public Criteria andCultureValueNotEqualTo(Integer value) {
             addCriterion("culture_value <>", value, "cultureValue");
             return (Criteria) this;
         }
 
-        public Criteria andCultureValueGreaterThan(String value) {
+        public Criteria andCultureValueGreaterThan(Integer value) {
             addCriterion("culture_value >", value, "cultureValue");
             return (Criteria) this;
         }
 
-        public Criteria andCultureValueGreaterThanOrEqualTo(String value) {
+        public Criteria andCultureValueGreaterThanOrEqualTo(Integer value) {
             addCriterion("culture_value >=", value, "cultureValue");
             return (Criteria) this;
         }
 
-        public Criteria andCultureValueLessThan(String value) {
+        public Criteria andCultureValueLessThan(Integer value) {
             addCriterion("culture_value <", value, "cultureValue");
             return (Criteria) this;
         }
 
-        public Criteria andCultureValueLessThanOrEqualTo(String value) {
+        public Criteria andCultureValueLessThanOrEqualTo(Integer value) {
             addCriterion("culture_value <=", value, "cultureValue");
             return (Criteria) this;
         }
 
-        public Criteria andCultureValueLike(String value) {
-            addCriterion("culture_value like", value, "cultureValue");
-            return (Criteria) this;
-        }
-
-        public Criteria andCultureValueNotLike(String value) {
-            addCriterion("culture_value not like", value, "cultureValue");
-            return (Criteria) this;
-        }
-
-        public Criteria andCultureValueIn(List<String> values) {
+        public Criteria andCultureValueIn(List<Integer> values) {
             addCriterion("culture_value in", values, "cultureValue");
             return (Criteria) this;
         }
 
-        public Criteria andCultureValueNotIn(List<String> values) {
+        public Criteria andCultureValueNotIn(List<Integer> values) {
             addCriterion("culture_value not in", values, "cultureValue");
             return (Criteria) this;
         }
 
-        public Criteria andCultureValueBetween(String value1, String value2) {
+        public Criteria andCultureValueBetween(Integer value1, Integer value2) {
             addCriterion("culture_value between", value1, value2, "cultureValue");
             return (Criteria) this;
         }
 
-        public Criteria andCultureValueNotBetween(String value1, String value2) {
+        public Criteria andCultureValueNotBetween(Integer value1, Integer value2) {
             addCriterion("culture_value not between", value1, value2, "cultureValue");
             return (Criteria) this;
         }

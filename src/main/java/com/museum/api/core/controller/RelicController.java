@@ -14,6 +14,7 @@ import com.museum.api.common.orm.model.Relic;
 import com.museum.api.common.vo.BaseModel;
 import com.museum.api.core.service.FileService;
 import com.museum.api.core.service.RelicService;
+import com.museum.api.core.vo.ImageInfo;
 import com.museum.api.core.vo.RelicInfoVO;
 import com.museum.api.core.vo.RelicSearchVO;
 import org.apache.log4j.Logger;
@@ -58,7 +59,7 @@ public class RelicController extends BaseController{
      * 添加一个展品(模板)
      * @return
      */
-    @Authorization
+    @Authorization(authCode = 3)
     @RequestMapping(value = "/management/template", method = RequestMethod.GET)
     public @ResponseBody BaseModel<HashMap<String, Integer>> generateOneRelic() {
 
@@ -95,7 +96,7 @@ public class RelicController extends BaseController{
     /**
      * 更新藏品信息
      */
-    @Authorization
+    @Authorization(authCode = 3)
     @RequestMapping(value = "management", method = RequestMethod.PUT)
     public @ResponseBody BaseModel<String> updateRelic() {
         BaseModel<String> result = new BaseModel<>();
@@ -128,7 +129,7 @@ public class RelicController extends BaseController{
      * 根据ID删除展品
      * @return
      */
-    @Authorization
+    @Authorization(authCode = 2)
     @RequestMapping(value = "/management/id/{relicId}", method = RequestMethod.DELETE)
     public @ResponseBody BaseModel<String> removeOneRelic(@PathVariable Integer relicId) {
 
@@ -158,7 +159,6 @@ public class RelicController extends BaseController{
     /**
      * 根据需求获取产品
      */
-    @Authorization
     @RequestMapping(value = "/resources", method = RequestMethod.POST)
     public @ResponseBody BaseModel<List<RelicInfoVO>> getRelicBySearchVO() {
         BaseModel<List<RelicInfoVO>> result = new BaseModel<>();
@@ -174,7 +174,27 @@ public class RelicController extends BaseController{
                 String imagesString = relic.getImagesString();
 
                 if(imagesString != null && imagesString.trim().length() > 0) {
-                    relic.setImages(new ArrayList<String>(Arrays.asList(imagesString.split(","))));
+
+                    ArrayList<ImageInfo> imageInfos = new ArrayList<>();
+
+                    String[] eachImage = imagesString.split(",");
+
+                    for (int i = 0; i < eachImage.length; i++) {
+                        String[] info = eachImage[i].split("::");
+
+                        ImageInfo imageInfo = new ImageInfo();
+
+                        imageInfo.setId(Integer.parseInt(info[0]));
+                        imageInfo.setUrl(info[1]);
+
+                        imageInfos.add(imageInfo);
+
+                    }
+
+                    relic.setImages(imageInfos);
+                    relic.setImagesString("");
+
+
                 }
 
             }
@@ -196,7 +216,7 @@ public class RelicController extends BaseController{
     /**
      * 登记展品图片
      */
-    @Authorization
+    @Authorization(authCode = 3)
     @RequestMapping(value = "management/image", method = RequestMethod.POST)
     public @ResponseBody BaseModel<String> addRelicImage(){
 
@@ -231,7 +251,7 @@ public class RelicController extends BaseController{
     /**
      * 删除展品图片
      */
-    @Authorization
+    @Authorization(authCode = 3)
     @RequestMapping(value = "management/image", method = RequestMethod.DELETE)
     public @ResponseBody BaseModel<String> removeRelicImage(){
 

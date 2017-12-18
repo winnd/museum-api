@@ -1,12 +1,16 @@
 package com.museum.api.core.service;
 
+import com.alibaba.fastjson.JSONArray;
 import com.museum.api.common.constant.Constants;
 import com.museum.api.common.exception.InheaterSOAException;
 import com.museum.api.common.exception.InheaterSOAExceptionCode;
 import com.museum.api.common.exception.InheaterSOAExceptionType;
+import com.museum.api.common.orm.mapper.UserFuncRelMapper;
 import com.museum.api.common.orm.mapper.UserMapper;
 import com.museum.api.common.orm.model.User;
 import com.museum.api.common.orm.model.UserExample;
+import com.museum.api.common.orm.model.UserFuncRel;
+import com.museum.api.common.orm.model.UserFuncRelExample;
 import com.museum.api.common.util.CommonUtil;
 import com.museum.api.common.util.StringEncrypt;
 import org.springframework.stereotype.Service;
@@ -19,6 +23,9 @@ public class UserService {
 
     @Resource
     UserMapper userMapper;
+
+    @Resource
+    UserFuncRelMapper userFuncRelMapper;
 
     public User login(String account, String password) {
         UserExample example = new UserExample();
@@ -81,6 +88,38 @@ public class UserService {
     public User getUserById(Integer userId) {
 
         return userMapper.selectByPrimaryKey(userId);
+
+    }
+
+    public void saveUserAuth(Integer userId, JSONArray authList){
+
+        Long currentTime = System.currentTimeMillis();
+
+        UserFuncRelExample example = new UserFuncRelExample();
+
+        example.createCriteria().andUserIdEqualTo(userId);
+
+        userFuncRelMapper.deleteByExample(example);
+
+        for(int i = 0; i < authList.size(); i++) {
+            UserFuncRel userFuncRel = new UserFuncRel();
+            userFuncRel.setUserId(userId);
+            userFuncRel.setFuncId(authList.getInteger(i));
+            userFuncRel.setCreateTime(currentTime);
+            userFuncRel.setCreateBy(1);
+            userFuncRelMapper.insert(userFuncRel);
+        }
+
+    }
+
+    public List<UserFuncRel> getUserAuth(Integer userId) {
+
+        UserFuncRelExample example = new UserFuncRelExample();
+
+        example.createCriteria().andUserIdEqualTo(userId);
+
+        return userFuncRelMapper.selectByExample(example);
+
 
     }
 

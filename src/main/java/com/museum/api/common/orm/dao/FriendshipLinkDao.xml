@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.museum.api.common.orm.dao.FriendshipLinkDao">
+
+    <select id="getFriendshipLink" resultType="com.museum.api.common.orm.model.FriendshipLink">
+        SELECT
+        id,
+        name,
+        url,
+        image,
+        create_time,
+        create_by,
+        update_time,
+        update_by
+
+        FROM friendship_link AS fl
+
+        WHERE 1 =1
+
+        <if test="searchVO.id != null">
+            AND fl.id = #{searchVO.id}
+        </if>
+
+        <if test="searchVO.name != null and searchVO.name != ''">
+            AND fl.name LIKE CONCAT (CONCAT('%', #{searchVO.name}), '%')
+        </if>
+
+
+        ORDER BY update_time DESC
+
+    </select>
+
+</mapper>

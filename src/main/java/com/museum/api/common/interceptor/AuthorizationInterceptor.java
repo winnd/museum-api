@@ -39,14 +39,28 @@ public class AuthorizationInterceptor extends HandlerInterceptorAdapter{
 
         // 验证token
         TokenModel tokenModel = tokenManager.getToken(authorization);
-        if(tokenManager.checkToken(tokenModel)) {
-            // 若果认证成功，将token对应的用户id存在request中，便于之后注入
-            request.setAttribute(Constants.CURRENT_USER_ID, tokenModel.getUserId());
-            return true;
 
-        }
 
-        if(method.getAnnotation(Authorization.class) != null) {
+        Authorization annotation = method.getAnnotation(Authorization.class);
+
+        if(annotation != null) {
+
+
+            Integer[] authList = tokenModel.getAuthList();
+
+            if(tokenManager.checkToken(tokenModel) && authList != null) {
+
+                for(int i = 0; i < authList.length; i++) {
+                    if(authList[i].equals(annotation.authCode())) {
+                        // 如果认证成功，将token对应的用户id存在request中，便于之后注入
+                        request.setAttribute(Constants.CURRENT_USER_ID, tokenModel.getUserId());
+                        return true;
+                    }
+                }
+
+            }
+
+
             response.setCharacterEncoding("UTF-8");
             response.setContentType("application/json; charset=utf-8");
 
@@ -54,8 +68,8 @@ public class AuthorizationInterceptor extends HandlerInterceptorAdapter{
 
             BaseModel<String> result = new BaseModel<>();
 
-            result.setStatus(Constants.FAIL_INVALID_USER);
-            result.setMessage("身份认证未通过");
+            result.setStatus(Constants.FAIL_INVALID_AUTH);
+            result.setMessage("没有权限访问");
 
             try {
                 out = response.getWriter();

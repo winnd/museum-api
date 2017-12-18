@@ -1,6 +1,7 @@
 package com.museum.api.core.vo;
 
 import com.museum.api.common.orm.model.Relic;
+import com.museum.api.core.controller.RelicController;
 
 import java.util.ArrayList;
 
@@ -9,15 +10,13 @@ public class RelicInfoVO extends Relic {
 
     private String imagesString;
 
-    private ArrayList<String> images;
+    private ArrayList<ImageInfo> images;
 
-    private ArrayList<Integer> imageIds;
-
-    public ArrayList<String> getImages() {
+    public ArrayList<ImageInfo> getImages() {
         return images;
     }
 
-    public void setImages(ArrayList<String> images) {
+    public void setImages(ArrayList<ImageInfo> images) {
         this.images = images;
     }
 
@@ -27,13 +26,5 @@ public class RelicInfoVO extends Relic {
 
     public void setImagesString(String imagesString) {
         this.imagesString = imagesString;
-    }
-
-    public ArrayList<Integer> getImageIds() {
-        return imageIds;
-    }
-
-    public void setImageIds(ArrayList<Integer> imageIds) {
-        this.imageIds = imageIds;
     }
 }

@@ -127,7 +127,7 @@ public class FileController extends BaseController{
     @Resource
     FileService fileService;
 
-    @Authorization
+    @Authorization(authCode = 3)
     @RequestMapping(value = "/management", method = RequestMethod.POST)
     public @ResponseBody BaseModel<FileResources> uploadFile(
             @RequestParam(value = "uploadFile")MultipartFile uploadFile,
