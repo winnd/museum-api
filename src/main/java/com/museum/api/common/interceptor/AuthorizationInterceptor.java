@@ -45,20 +45,24 @@ public class AuthorizationInterceptor extends HandlerInterceptorAdapter{
 
         if(annotation != null) {
 
+            if(tokenModel != null) {
 
-            Integer[] authList = tokenModel.getAuthList();
+                Integer[] authList = tokenModel.getAuthList();
 
-            if(tokenManager.checkToken(tokenModel) && authList != null) {
+                if(tokenManager.checkToken(tokenModel) && authList != null) {
 
-                for(int i = 0; i < authList.length; i++) {
-                    if(authList[i].equals(annotation.authCode())) {
-                        // 如果认证成功，将token对应的用户id存在request中，便于之后注入
-                        request.setAttribute(Constants.CURRENT_USER_ID, tokenModel.getUserId());
-                        return true;
+                    for(int i = 0; i < authList.length; i++) {
+                        if(authList[i].equals(annotation.authCode())) {
+                            // 如果认证成功，将token对应的用户id存在request中，便于之后注入
+                            request.setAttribute(Constants.CURRENT_USER_ID, tokenModel.getUserId());
+                            return true;
+                        }
                     }
+
                 }
 
             }
+
 
 
             response.setCharacterEncoding("UTF-8");

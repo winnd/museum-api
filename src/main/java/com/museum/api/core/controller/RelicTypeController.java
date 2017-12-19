@@ -106,7 +106,6 @@ public class RelicTypeController extends BaseController{
 	/**
 	 * 获取所有分类
 	 */
-	@Authorization
 	@RequestMapping(value = "/resources", method = RequestMethod.GET)
 	public @ResponseBody BaseModel<List<RelicType>> getAllRelicType() {
 

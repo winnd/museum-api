@@ -7,9 +7,14 @@ import com.museum.api.common.annotation.CurrentUser;
 import com.museum.api.common.constant.Constants;
 import com.museum.api.common.controller.BaseController;
 import com.museum.api.common.exception.InheaterSOAException;
+import com.museum.api.common.orm.mapper.FunctionMapper;
+import com.museum.api.common.orm.mapper.MenuMapper;
+import com.museum.api.common.orm.model.Menu;
+import com.museum.api.common.orm.model.MenuExample;
 import com.museum.api.common.orm.model.User;
 import com.museum.api.common.orm.model.UserFuncRel;
 import com.museum.api.common.vo.BaseModel;
+import com.museum.api.core.vo.AuthMenuVO;
 import com.museum.api.core.vo.TokenModel;
 import com.museum.api.core.service.UserService;
 import com.museum.api.common.token.TokenManager;
@@ -21,6 +26,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.annotation.Resource;
+import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -32,6 +38,7 @@ public class UserController extends BaseController {
 
     @Resource(name="redisTokenManager")
     TokenManager tokenManager;
+
 
     @RequestMapping(value = "/login", method = RequestMethod.POST)
     public @ResponseBody BaseModel<TokenModel> login() {
@@ -187,6 +194,26 @@ public class UserController extends BaseController {
 
         return result;
 
+    }
+
+    @RequestMapping(value = "auth-menu", method = RequestMethod.GET)
+    @ResponseBody
+    public BaseModel<AuthMenuVO> getAuthMenu(){
+
+        BaseModel<AuthMenuVO> result = new BaseModel<>();
+
+        try {
+            AuthMenuVO authMenuVO = userService.getAuthMenu();
+
+            result.setData(authMenuVO);
+
+        }
+        catch (Exception e) {
+            result.setMessage(Constants.FAIL_BUSINESS_ERROR);
+            result.setMessage("系统错误");
+        }
+
+        return result;
     }
 
 }

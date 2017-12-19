@@ -5,17 +5,18 @@ import com.museum.api.common.constant.Constants;
 import com.museum.api.common.exception.InheaterSOAException;
 import com.museum.api.common.exception.InheaterSOAExceptionCode;
 import com.museum.api.common.exception.InheaterSOAExceptionType;
+import com.museum.api.common.orm.mapper.FunctionMapper;
+import com.museum.api.common.orm.mapper.MenuMapper;
 import com.museum.api.common.orm.mapper.UserFuncRelMapper;
 import com.museum.api.common.orm.mapper.UserMapper;
-import com.museum.api.common.orm.model.User;
-import com.museum.api.common.orm.model.UserExample;
-import com.museum.api.common.orm.model.UserFuncRel;
-import com.museum.api.common.orm.model.UserFuncRelExample;
+import com.museum.api.common.orm.model.*;
 import com.museum.api.common.util.CommonUtil;
 import com.museum.api.common.util.StringEncrypt;
+import com.museum.api.core.vo.AuthMenuVO;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -26,6 +27,12 @@ public class UserService {
 
     @Resource
     UserFuncRelMapper userFuncRelMapper;
+
+    @Resource
+    MenuMapper menuMapper;
+
+    @Resource
+    FunctionMapper functionMapper;
 
     public User login(String account, String password) {
         UserExample example = new UserExample();
@@ -120,6 +127,53 @@ public class UserService {
 
         return userFuncRelMapper.selectByExample(example);
 
+
+    }
+
+    public AuthMenuVO getAuthMenu() {
+
+        AuthMenuVO authMenuVO = new AuthMenuVO();
+
+        MenuExample menuExample = new MenuExample();
+
+        menuExample.createCriteria();
+
+        List<Menu> menus = menuMapper.selectByExample(menuExample);
+
+        FunctionExample functionExample = new FunctionExample();
+
+        functionExample.createCriteria();
+
+        List<Function> functions = functionMapper.selectByExample(functionExample);
+
+        for (Menu menu : menus) {
+
+
+            List<Function> childFunctions = new ArrayList<>();
+
+            for (Function function : functions) {
+                if (menu.getId().equals(function.getMenuId())) {
+                    childFunctions.add(function);
+                }
+            }
+
+            if (menu.getParentId() == 0) {
+                authMenuVO.convertMenu(menu);
+                authMenuVO.setMenus(new ArrayList<AuthMenuVO>());
+            }
+            else {
+                AuthMenuVO tempAuth = new AuthMenuVO(menu);
+
+                tempAuth.setFunctions(childFunctions);
+
+                authMenuVO.getMenus().add(tempAuth);
+
+            }
+
+
+        }
+
+        return authMenuVO;
 
     }
 

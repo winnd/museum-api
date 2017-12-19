@@ -34,12 +34,13 @@ public class RedisTokenManager implements TokenManager {
     public TokenModel createToken(Integer userId) {
 
         String token = "";
+        List<Integer> authList = null;
 
         try {
             Algorithm algorithm = Algorithm.HMAC256(Constants.SECRET); // 采用HMAC256加密算法
 
             List<UserFuncRel> userFuncRels = userService.getUserAuth(userId);
-            List<Integer> authList = new ArrayList<>();
+            authList = new ArrayList<>();
 
             for(UserFuncRel userFuncRel : userFuncRels) {
                 authList.add(userFuncRel.getFuncId());
@@ -56,7 +57,7 @@ public class RedisTokenManager implements TokenManager {
         }
 
         // 生成token信息对象
-        TokenModel tokenModel = new TokenModel(userId, token);
+        TokenModel tokenModel = new TokenModel(userId, token, authList.toArray(new Integer[authList.size()]));
 
         // 将生成的token字符串存如Redis数据库中
         redis.boundValueOps(userId).set(token, Constants.TOKEN_EXPIRES_HOUR, TimeUnit.HOURS);
