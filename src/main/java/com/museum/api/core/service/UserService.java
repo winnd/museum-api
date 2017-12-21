@@ -12,8 +12,10 @@ import com.museum.api.common.orm.mapper.UserMapper;
 import com.museum.api.common.orm.model.*;
 import com.museum.api.common.util.CommonUtil;
 import com.museum.api.common.util.StringEncrypt;
+import com.museum.api.common.vo.BaseModel;
 import com.museum.api.core.vo.AuthMenuVO;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.annotation.Resource;
 import java.util.ArrayList;
@@ -176,5 +178,16 @@ public class UserService {
         return authMenuVO;
 
     }
+
+    public List<User> getAllUsers() {
+
+        UserExample example = new UserExample();
+
+        example.createCriteria();
+
+        return userMapper.selectByExample(example);
+
+    }
+
 
 }

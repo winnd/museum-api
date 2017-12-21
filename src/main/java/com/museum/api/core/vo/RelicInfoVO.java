@@ -12,6 +12,8 @@ public class RelicInfoVO extends Relic {
 
     private ArrayList<ImageInfo> images;
 
+    private String relicTypeStr;
+
     public ArrayList<ImageInfo> getImages() {
         return images;
     }
@@ -26,5 +28,13 @@ public class RelicInfoVO extends Relic {
 
     public void setImagesString(String imagesString) {
         this.imagesString = imagesString;
+    }
+
+    public String getRelicTypeStr() {
+        return relicTypeStr;
+    }
+
+    public void setRelicTypeStr(String relicTypeStr) {
+        this.relicTypeStr = relicTypeStr;
     }
 }

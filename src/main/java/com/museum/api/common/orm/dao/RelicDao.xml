@@ -4,43 +4,46 @@
 
     <select id="getRelicBySearchVO" resultType="com.museum.api.core.vo.RelicInfoVO">
         SELECT
-          id,
-          name,
-          pic_url AS picUrl,
-          code,
-          relic_type AS relicType,
-          amount,
-          level,
-          size,
-          weight,
-          attrition_rate AS attritionRate,
-          application,
-          craft,
-          material,
-          shape,
-          feature,
-          cultural_connotation AS CulturalConnotation,
-          required_tech AS requiredTech,
-          area,
-          age,
-          create_by AS createBy,
-          create_time AS createTime,
-          update_by AS updateBy,
-          update_time AS updateTime,
-          introduction,
-          protect_value AS protectValue,
-          culture_value AS cultureValue,
-          dynasty,
-          (
+            re.id,
+            re.name,
+            re.pic_url AS picUrl,
+            re.code,
+            re.relic_type AS relicType,
+            re.amount,
+            re.level,
+            re.size,
+            re.weight,
+            re.attrition_rate AS attritionRate,
+            re.application,
+            re.craft,
+            re.material,
+            re.shape,
+            re.feature,
+            re.cultural_connotation AS CulturalConnotation,
+            re.required_tech AS requiredTech,
+            re.area,
+            re.age,
+            re.create_by AS createBy,
+            re.create_time AS createTime,
+            re.update_by AS updateBy,
+            re.update_time AS updateTime,
+            re.introduction,
+            re.protect_value AS protectValue,
+            re.culture_value AS cultureValue,
+            re.dynasty,
+            (
             SELECT group_concat(fr.id, "::", fr.url) FROM
-              relic_images AS ri
-              LEFT JOIN file_resources AS fr
-              ON  fr.id = ri.file_id
+            relic_images AS ri
+            LEFT JOIN file_resources AS fr
+            ON  fr.id = ri.file_id
             WHERE ri.relic_id = re.id
 
-          ) AS imagesString
+            ) AS imagesString,
+            rt.relic_type AS relicTypeStr
 
-        FROM relic AS re
+            FROM relic AS re
+            LEFT JOIN relic_type AS rt
+            ON re.relic_type = rt.id
 
         WHERE 1 =1
 
@@ -56,7 +59,7 @@
             AND re.relic_type = #{searchVO.relicType}
         </if>
 
-        ORDER BY update_time DESC
+        ORDER BY re.update_time DESC
 
     </select>
 

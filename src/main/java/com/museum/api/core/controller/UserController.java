@@ -171,7 +171,7 @@ public class UserController extends BaseController {
     }
 
     /**
-     * 用户权限管理
+     * 获取用户权限
      * @return
      */
     @RequestMapping(value = "/user-auth/id/{userId}", method = RequestMethod.GET)
@@ -215,5 +215,36 @@ public class UserController extends BaseController {
 
         return result;
     }
+
+
+    /**
+     * 获取所有用户
+     * @return
+     */
+    @RequestMapping(value = "all-users", method = RequestMethod.GET)
+    @ResponseBody
+    public BaseModel<List<User>> getAllUsers() {
+
+        BaseModel<List<User>> result = new BaseModel<>();
+
+        try {
+            List<User> users = userService.getAllUsers();
+
+            for (User user : users) {
+                user.setPassword("");
+            }
+
+            result.setData(users);
+
+        }
+        catch (Exception e) {
+            result.setStatus(Constants.FAIL_BUSINESS_ERROR);
+            result.setMessage("数据库错误");
+        }
+
+        return result;
+
+    }
+
 
 }
