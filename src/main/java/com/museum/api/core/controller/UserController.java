@@ -76,6 +76,11 @@ public class UserController extends BaseController {
 
     }
 
+    /**
+     * 新增用户
+     * @return
+     */
+    @Authorization(authCode = 7)
     @RequestMapping(value = "/register", method = RequestMethod.POST)
     public @ResponseBody BaseModel<User> register() {
 
@@ -118,7 +123,6 @@ public class UserController extends BaseController {
     }
 
     @RequestMapping(value = "/logout", method = RequestMethod.GET)
-    @Authorization
     public @ResponseBody BaseModel<String> logout(@CurrentUser User user) {
 
         BaseModel<String> result = new BaseModel<>();
@@ -143,6 +147,7 @@ public class UserController extends BaseController {
      * 用户权限管理
      * @return
      */
+    @Authorization(authCode = 9)
     @RequestMapping(value = "/user-auth", method = RequestMethod.POST)
     @ResponseBody
     public BaseModel<String> saveUserAuth() {
@@ -246,5 +251,66 @@ public class UserController extends BaseController {
 
     }
 
+    /**
+     * 修改用户信息
+     */
+    @Authorization(authCode = 9)
+    @RequestMapping(value = "/management", method = RequestMethod.PUT)
+    @ResponseBody
+    public BaseModel<String> updateUser() {
+
+        BaseModel<String> result = new BaseModel<>();
+
+        JSONObject json = this.convertRequestBody();
+
+        User user = JSONObject.toJavaObject(json, User.class);
+
+        try {
+            if( userService.updateUser(user) == 0) {
+                result.setMessage("更新失败");
+                result.setStatus(Constants.FAIL_BUSINESS_ERROR);
+            }
+
+        }
+        catch (InheaterSOAException e) {
+            result.setStatus(Constants.FAIL_BUSINESS_ERROR);
+            result.setMessage(e.getMessage());
+        }
+
+        return result;
+
+    }
+
+    /**
+     * 删除用户
+     */
+    @Authorization(authCode = 8)
+    @RequestMapping(value = "management/id/{userId}", method = RequestMethod.DELETE)
+    @ResponseBody
+    public BaseModel<String> deleteUser(@PathVariable Integer userId, @CurrentUser User user) {
+
+        BaseModel<String> result = new BaseModel<>();
+
+        if(user.getId().equals(userId)) {
+            result.setMessage("不可删除自己");
+            result.setStatus(Constants.FAIL_BUSINESS_ERROR);
+            return result;
+        }
+
+        try {
+            if( userService.deleteUser(userId) == 0) {
+                result.setMessage("删除失败");
+                result.setStatus(Constants.FAIL_BUSINESS_ERROR);
+            }
+
+        }
+        catch (InheaterSOAException e) {
+            result.setStatus(Constants.FAIL_BUSINESS_ERROR);
+            result.setMessage(e.getMessage());
+        }
+
+        return result;
+
+    }
 
 }

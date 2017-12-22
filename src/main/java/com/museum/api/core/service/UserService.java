@@ -189,5 +189,23 @@ public class UserService {
 
     }
 
+    public int updateUser(User user){
+        if(userMapper.selectByPrimaryKey(user.getId()) == null) {
+            throw new InheaterSOAException(InheaterSOAExceptionCode.BUNIESS_EXCEPTION,
+                    InheaterSOAExceptionType.BUSINESS, "用户不存在");
+        }
+
+        return userMapper.updateByPrimaryKeySelective(user);
+    }
+
+    public int deleteUser(Integer userId) {
+        if(userMapper.selectByPrimaryKey(userId) == null) {
+            throw new InheaterSOAException(InheaterSOAExceptionCode.BUNIESS_EXCEPTION,
+                    InheaterSOAExceptionType.BUSINESS, "用户不存在");
+        }
+
+        return userMapper.deleteByPrimaryKey(userId);
+    }
+
 
 }
