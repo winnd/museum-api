@@ -26,7 +26,7 @@ public class RelicTypeService {
      * @return
      */
 	@Transactional
-	public int addOneRelicType(String relicTypeName) {
+	public int addOneRelicType(String relicTypeName, Integer userId) {
 		
 		RelicTypeExample example = new RelicTypeExample();
 		
@@ -41,8 +41,8 @@ public class RelicTypeService {
 		RelicType relicType = new RelicType();
 		
 		relicType.setRelicType(relicTypeName);
-		relicType.setCreateBy(1);
-		relicType.setUpdateBy(1);
+		relicType.setCreateBy(userId);
+		relicType.setUpdateBy(userId);
 		relicType.setCreateTime(currentTime);
 		relicType.setUpdateTime(currentTime);
 		
@@ -77,7 +77,12 @@ public class RelicTypeService {
 	 * @return
 	 */
 	@Transactional
-	public int updateOneRelicType(RelicType relicType) {
+	public int updateOneRelicType(RelicType relicType, Integer userId) {
+
+		Long currentTime = System.currentTimeMillis();
+
+		relicType.setUpdateBy(userId);
+		relicType.setUpdateTime(currentTime);
 
 		return relicTypeMapper.updateByPrimaryKeySelective(relicType);
 

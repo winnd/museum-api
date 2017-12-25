@@ -57,11 +57,21 @@ public class UserService {
             throw new InheaterSOAException(InheaterSOAExceptionCode.BUNIESS_EXCEPTION, InheaterSOAExceptionType.BUSINESS, "密码不正确");
         }
 
+        Long currentTime = System.currentTimeMillis();
+
+        Long lastLoginTime = user.getLastLoginTime();
+
+        user.setLastLoginTime(currentTime);
+
+        userMapper.updateByPrimaryKeySelective(user);
+
+        user.setLastLoginTime(lastLoginTime);
+
         return user;
 
     }
 
-    public User register(String account, String password, String name){
+    public User register(String account, String password, String name, Integer userId){
 
         UserExample example = new UserExample();
 
@@ -81,9 +91,9 @@ public class UserService {
         user.setAccount(account);
         user.setPassword(password);
         user.setName(name);
-        user.setCreateBy(1);
+        user.setCreateBy(userId);
         user.setCreateTime(currentTime);
-        user.setUpdateBy(1);
+        user.setUpdateBy(userId);
         user.setUpdateTime(currentTime);
         user.setLastLoginTime(currentTime);
 
@@ -100,7 +110,7 @@ public class UserService {
 
     }
 
-    public void saveUserAuth(Integer userId, JSONArray authList){
+    public void saveUserAuth(Integer userId, JSONArray authList, Integer createBy){
 
         Long currentTime = System.currentTimeMillis();
 
@@ -115,7 +125,7 @@ public class UserService {
             userFuncRel.setUserId(userId);
             userFuncRel.setFuncId(authList.getInteger(i));
             userFuncRel.setCreateTime(currentTime);
-            userFuncRel.setCreateBy(1);
+            userFuncRel.setCreateBy(createBy);
             userFuncRelMapper.insert(userFuncRel);
         }
 
@@ -189,11 +199,16 @@ public class UserService {
 
     }
 
-    public int updateUser(User user){
+    public int updateUser(User user, Integer createBy){
         if(userMapper.selectByPrimaryKey(user.getId()) == null) {
             throw new InheaterSOAException(InheaterSOAExceptionCode.BUNIESS_EXCEPTION,
                     InheaterSOAExceptionType.BUSINESS, "用户不存在");
         }
+
+        Long currentTime = System.currentTimeMillis();
+
+        user.setUpdateBy(createBy);
+        user.setUpdateTime(currentTime);
 
         return userMapper.updateByPrimaryKeySelective(user);
     }

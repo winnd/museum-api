@@ -3,7 +3,9 @@ package com.museum.api.core.controller;
 import javax.annotation.Resource;
 
 import com.museum.api.common.annotation.Authorization;
+import com.museum.api.common.annotation.CurrentUser;
 import com.museum.api.common.orm.model.RelicType;
+import com.museum.api.common.orm.model.User;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
@@ -29,7 +31,7 @@ public class RelicTypeController extends BaseController{
      */
 	@Authorization(authCode = 4)
 	@RequestMapping(value = "/management", method = RequestMethod.POST)
-	public @ResponseBody BaseModel<String> addOneRelicType() {
+	public @ResponseBody BaseModel<String> addOneRelicType(@CurrentUser User user) {
 		BaseModel<String> result = new BaseModel<>();
 		
 		JSONObject json = this.convertRequestBody();
@@ -45,7 +47,7 @@ public class RelicTypeController extends BaseController{
 		}
 		
 		try {
-			relicTypeService.addOneRelicType(relicTypeName);
+			relicTypeService.addOneRelicType(relicTypeName, user.getId());
 		}
 		catch(InheaterSOAException e) {
 			result.setMessage(e.getMessage());
@@ -82,7 +84,7 @@ public class RelicTypeController extends BaseController{
 	 */
 	@Authorization(authCode = 6)
 	@RequestMapping(value = "/management", method = RequestMethod.PUT)
-	public @ResponseBody BaseModel<String> updateOneRelicType() {
+	public @ResponseBody BaseModel<String> updateOneRelicType(@CurrentUser User user) {
 
 		BaseModel<String> result = new BaseModel<>();
 
@@ -91,7 +93,7 @@ public class RelicTypeController extends BaseController{
 		RelicType relicType = JSONObject.toJavaObject(json, RelicType.class);
 
 		try{
-			relicTypeService.updateOneRelicType(relicType);
+			relicTypeService.updateOneRelicType(relicType, user.getId());
 		}
 		catch (InheaterSOAException e) {
 			result.setMessage(e.getMessage());

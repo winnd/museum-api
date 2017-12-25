@@ -6,11 +6,13 @@ import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.github.pagehelper.PageInfo;
 import com.museum.api.common.annotation.Authorization;
+import com.museum.api.common.annotation.CurrentUser;
 import com.museum.api.common.constant.Constants;
 import com.museum.api.common.controller.BaseController;
 import com.museum.api.common.exception.InheaterSOAException;
 import com.museum.api.common.orm.model.FileResources;
 import com.museum.api.common.orm.model.Relic;
+import com.museum.api.common.orm.model.User;
 import com.museum.api.common.vo.BaseModel;
 import com.museum.api.core.service.FileService;
 import com.museum.api.core.service.RelicService;
@@ -61,12 +63,12 @@ public class RelicController extends BaseController{
      */
     @Authorization(authCode = 3)
     @RequestMapping(value = "/management/template", method = RequestMethod.GET)
-    public @ResponseBody BaseModel<HashMap<String, Integer>> generateOneRelic() {
+    public @ResponseBody BaseModel<HashMap<String, Integer>> generateOneRelic(@CurrentUser User user) {
 
         BaseModel<HashMap<String, Integer>> result = new BaseModel<>();
 
         try{
-            Integer relicId = relicService.generateOneRelic();
+            Integer relicId = relicService.generateOneRelic(user.getId());
 
             if(relicId == 0) {
                 result.setMessage("操作失败");
@@ -98,7 +100,7 @@ public class RelicController extends BaseController{
      */
     @Authorization(authCode = 3)
     @RequestMapping(value = "management", method = RequestMethod.PUT)
-    public @ResponseBody BaseModel<String> updateRelic() {
+    public @ResponseBody BaseModel<String> updateRelic(@CurrentUser User user) {
         BaseModel<String> result = new BaseModel<>();
 
         JSONObject json = this.convertRequestBody();
@@ -106,7 +108,7 @@ public class RelicController extends BaseController{
         Relic relic = JSONObject.toJavaObject(json, Relic.class);
 
         try{
-            if(relicService.updateRelic(relic) == 0) {
+            if(relicService.updateRelic(relic, user.getId()) == 0) {
                 result.setMessage("业务错误");
                 result.setStatus(Constants.FAIL_BUSINESS_ERROR);
             }
@@ -218,7 +220,7 @@ public class RelicController extends BaseController{
      */
     @Authorization(authCode = 3)
     @RequestMapping(value = "management/image", method = RequestMethod.POST)
-    public @ResponseBody BaseModel<String> addRelicImage(){
+    public @ResponseBody BaseModel<String> addRelicImage(@CurrentUser User user){
 
         BaseModel<String> result = new BaseModel();
 
@@ -232,7 +234,7 @@ public class RelicController extends BaseController{
 
             List<Integer> ids =  JSON.parseArray(imageIds, Integer.class);
 
-            relicService.addRelicImage(relicId, ids);
+            relicService.addRelicImage(relicId, ids, user.getId());
         }
         catch (InheaterSOAException e) {
             result.setMessage(e.getMessage());

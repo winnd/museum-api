@@ -68,16 +68,16 @@ public class RelicService {
      * @return
      */
     @Transactional
-    public int generateOneRelic(){
+    public int generateOneRelic(Integer userId){
 
         Relic relic = new Relic();
 
         Long currentTime = System.currentTimeMillis();
 
         relic.setCreateTime(currentTime);
-        relic.setCreateBy(1);
+        relic.setCreateBy(userId);
         relic.setUpdateTime(currentTime);
-        relic.setUpdateBy(1);
+        relic.setUpdateBy(userId);
 
         if(relicMapper.insert(relic) != 1) {
             return 0;
@@ -155,7 +155,7 @@ public class RelicService {
     /**
      * 更新藏品
      */
-    public int updateRelic(Relic relic){
+    public int updateRelic(Relic relic, Integer userId){
         if(relic == null) {
             throw new InheaterSOAException(InheaterSOAExceptionCode.BUNIESS_EXCEPTION, InheaterSOAExceptionType.BUSINESS, "传入参数为空");
         }
@@ -164,6 +164,11 @@ public class RelicService {
             throw new InheaterSOAException(InheaterSOAExceptionCode.BUNIESS_EXCEPTION, InheaterSOAExceptionType.BUSINESS, "藏品不存在");
         }
 
+        Long currentTime = System.currentTimeMillis();
+
+        relic.setUpdateBy(userId);
+        relic.setUpdateTime(currentTime);
+
         return relicMapper.updateByPrimaryKeySelective(relic);
     }
 
@@ -171,7 +176,7 @@ public class RelicService {
      * 登记展品图片
      */
     @Transactional
-    public void addRelicImage(Integer relicId, List<Integer> fileIds){
+    public void addRelicImage(Integer relicId, List<Integer> fileIds, Integer userId){
 
         Long currentTime = System.currentTimeMillis();
 
@@ -198,9 +203,9 @@ public class RelicService {
 
                 relicImages.setFileId(fileId);
                 relicImages.setRelicId(relicId);
-                relicImages.setCreateBy(1);
+                relicImages.setCreateBy(userId);
                 relicImages.setCreateTime(currentTime);
-                relicImages.setUpdateBy(1);
+                relicImages.setUpdateBy(userId);
                 relicImages.setUpdateTime(currentTime);
                 if(relicImagesMapper.insert(relicImages) == 0) {
                     throw new InheaterSOAException(InheaterSOAExceptionCode.BUNIESS_EXCEPTION, InheaterSOAExceptionType.BUSINESS, "插入失败");

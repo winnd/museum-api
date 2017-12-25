@@ -22,7 +22,7 @@ public class FriendshipLinkService {
     FriendshipLinkDao friendshipLinkDao;
 
     @Transactional
-    public int addFriendshipLink(String name, String url, String image){
+    public int addFriendshipLink(String name, String url, String image, Integer userId){
 
         Long currentTime = System.currentTimeMillis();
 
@@ -32,9 +32,9 @@ public class FriendshipLinkService {
         friendshipLink.setUrl(url);
         friendshipLink.setImage(image);
         friendshipLink.setCreateTime(currentTime);
-        friendshipLink.setCreateBy(1);
+        friendshipLink.setCreateBy(userId);
         friendshipLink.setUpdateTime(currentTime);
-        friendshipLink.setUpdateBy(1);
+        friendshipLink.setUpdateBy(userId);
 
         return friendshipLinkMapper.insert(friendshipLink);
 
@@ -48,7 +48,12 @@ public class FriendshipLinkService {
     }
 
     @Transactional
-    public int updateFriendshipLink(FriendshipLink friendshipLink) {
+    public int updateFriendshipLink(FriendshipLink friendshipLink, Integer userId) {
+
+        Long currentTime = System.currentTimeMillis();
+
+        friendshipLink.setUpdateTime(currentTime);
+        friendshipLink.setUpdateBy(userId);
 
         return friendshipLinkMapper.updateByPrimaryKeySelective(friendshipLink);
 

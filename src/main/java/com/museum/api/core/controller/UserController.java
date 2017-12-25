@@ -27,7 +27,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.annotation.Resource;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Controller
 @RequestMapping("/user")
@@ -41,9 +43,9 @@ public class UserController extends BaseController {
 
 
     @RequestMapping(value = "/login", method = RequestMethod.POST)
-    public @ResponseBody BaseModel<TokenModel> login() {
+    public @ResponseBody BaseModel<Map<String, Object>> login() {
 
-        BaseModel<TokenModel> result = new BaseModel<>();
+        BaseModel<Map<String, Object>> result = new BaseModel<>();
 
         JSONObject json = this.convertRequestBody();
 
@@ -58,7 +60,14 @@ public class UserController extends BaseController {
 
             TokenModel tokenModel = tokenManager.createToken(user.getId());
 
-            result.setData(tokenModel);
+            Map<String, Object> map = new HashMap<>();
+
+            user.setPassword("");
+
+            map.put("tokenModel", tokenModel);
+            map.put("userInfo", user);
+
+            result.setData(map);
             return result;
 
         }
@@ -82,7 +91,7 @@ public class UserController extends BaseController {
      */
     @Authorization(authCode = 7)
     @RequestMapping(value = "/register", method = RequestMethod.POST)
-    public @ResponseBody BaseModel<User> register() {
+    public @ResponseBody BaseModel<User> register(@CurrentUser User currentUser) {
 
         BaseModel<User> result = new BaseModel<>();
 
@@ -99,7 +108,7 @@ public class UserController extends BaseController {
             Assert.notNull(account, "账号不能为空");
             Assert.notNull(name, "用户名不能为空");
 
-            User user = userService.register(account, password, name);
+            User user = userService.register(account, password, name, currentUser.getId());
 
             result.setData(user);
 
@@ -150,7 +159,7 @@ public class UserController extends BaseController {
     @Authorization(authCode = 9)
     @RequestMapping(value = "/user-auth", method = RequestMethod.POST)
     @ResponseBody
-    public BaseModel<String> saveUserAuth() {
+    public BaseModel<String> saveUserAuth(@CurrentUser User user) {
 
         BaseModel<String> result = new BaseModel<>();
 
@@ -163,7 +172,7 @@ public class UserController extends BaseController {
         try{
             Assert.notNull(userId, "用户id不能为空");
 
-            userService.saveUserAuth(userId, authList);
+            userService.saveUserAuth(userId, authList, user.getId());
 
         }
         catch (IllegalArgumentException e) {
@@ -257,7 +266,7 @@ public class UserController extends BaseController {
     @Authorization(authCode = 9)
     @RequestMapping(value = "/management", method = RequestMethod.PUT)
     @ResponseBody
-    public BaseModel<String> updateUser() {
+    public BaseModel<String> updateUser(@CurrentUser User currentUser) {
 
         BaseModel<String> result = new BaseModel<>();
 
@@ -266,7 +275,7 @@ public class UserController extends BaseController {
         User user = JSONObject.toJavaObject(json, User.class);
 
         try {
-            if( userService.updateUser(user) == 0) {
+            if( userService.updateUser(user, currentUser.getId()) == 0) {
                 result.setMessage("更新失败");
                 result.setStatus(Constants.FAIL_BUSINESS_ERROR);
             }

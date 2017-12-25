@@ -18,7 +18,14 @@ public class FileService {
     FileResourcesDao fileResourcesDao;
 
     @Transactional
-    public FileResources addNewFile(FileResources fileResources){
+    public FileResources addNewFile(FileResources fileResources, Integer createBy){
+
+        Long currentTime = System.currentTimeMillis();
+
+        fileResources.setCreateBy(createBy);
+        fileResources.setUpdateBy(createBy);
+        fileResources.setCreateTime(currentTime);
+        fileResources.setUpdateTime(currentTime);
 
         fileResourcesDao.insertFileAndGetId(fileResources);
 

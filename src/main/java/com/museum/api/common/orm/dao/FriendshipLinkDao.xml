@@ -8,10 +8,10 @@
         name,
         url,
         image,
-        create_time,
-        create_by,
-        update_time,
-        update_by
+        create_time AS createTime,
+        create_by AS createBy,
+        update_time AS updateTime,
+        update_by AS updateBy
 
         FROM friendship_link AS fl
 

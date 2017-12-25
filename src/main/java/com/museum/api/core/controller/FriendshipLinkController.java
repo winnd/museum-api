@@ -3,9 +3,11 @@ package com.museum.api.core.controller;
 import com.alibaba.fastjson.JSONObject;
 import com.github.pagehelper.PageInfo;
 import com.museum.api.common.annotation.Authorization;
+import com.museum.api.common.annotation.CurrentUser;
 import com.museum.api.common.constant.Constants;
 import com.museum.api.common.controller.BaseController;
 import com.museum.api.common.orm.model.FriendshipLink;
+import com.museum.api.common.orm.model.User;
 import com.museum.api.common.vo.BaseModel;
 import com.museum.api.core.service.FriendshipLinkService;
 import com.museum.api.core.vo.FriendshipLinkSearchVO;
@@ -32,7 +34,7 @@ public class FriendshipLinkController extends BaseController {
     @Authorization(authCode = 10)
     @RequestMapping(value = "/management", method = RequestMethod.POST)
     @ResponseBody
-    public BaseModel<String> addFriendshipLink(){
+    public BaseModel<String> addFriendshipLink(@CurrentUser User user){
 
         BaseModel<String> result = new BaseModel<>();
 
@@ -50,7 +52,7 @@ public class FriendshipLinkController extends BaseController {
 
             Assert.hasText(url, "链接地址不能为空");
 
-            if( friendshipLinkService.addFriendshipLink(name, url, image) != 1){
+            if( friendshipLinkService.addFriendshipLink(name, url, image, user.getId()) != 1){
 
                 result.setMessage("数据库错误");
                 result.setStatus(Constants.FAIL_BUSINESS_ERROR);
@@ -117,7 +119,7 @@ public class FriendshipLinkController extends BaseController {
     @Authorization(authCode = 12)
     @RequestMapping(value = "/management", method = RequestMethod.PUT)
     @ResponseBody
-    public BaseModel<String> updateFriendshipLink(){
+    public BaseModel<String> updateFriendshipLink(@CurrentUser User user){
 
         BaseModel<String> result = new BaseModel<>();
 
@@ -129,7 +131,7 @@ public class FriendshipLinkController extends BaseController {
 
             Assert.notNull(friendshipLink.getId(), "友情链接id不能为空");
 
-            if (friendshipLinkService.updateFriendshipLink(friendshipLink) != 1) {
+            if (friendshipLinkService.updateFriendshipLink(friendshipLink, user.getId()) != 1) {
                 result.setMessage("数据库错误");
                 result.setStatus(Constants.FAIL_BUSINESS_ERROR);
             }

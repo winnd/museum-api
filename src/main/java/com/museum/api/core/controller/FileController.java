@@ -1,9 +1,11 @@
 package com.museum.api.core.controller;
 
 import com.museum.api.common.annotation.Authorization;
+import com.museum.api.common.annotation.CurrentUser;
 import com.museum.api.common.constant.Constants;
 import com.museum.api.common.controller.BaseController;
 import com.museum.api.common.orm.model.FileResources;
+import com.museum.api.common.orm.model.User;
 import com.museum.api.common.vo.BaseModel;
 import com.museum.api.core.service.FileService;
 import org.apache.log4j.Logger;
@@ -131,7 +133,7 @@ public class FileController extends BaseController{
     @RequestMapping(value = "/management", method = RequestMethod.POST)
     public @ResponseBody BaseModel<FileResources> uploadFile(
             @RequestParam(value = "uploadFile")MultipartFile uploadFile,
-            HttpServletRequest request) {
+            HttpServletRequest request, @CurrentUser User user) {
 
         BaseModel<FileResources> result = new BaseModel<>();
 
@@ -208,7 +210,7 @@ public class FileController extends BaseController{
                 fileResources.setType(type);
                 fileResources.setUrl(url);
 
-                FileResources fileResources1 = fileService.addNewFile(fileResources);
+                FileResources fileResources1 = fileService.addNewFile(fileResources, user.getId());
 
                 result.setData(fileResources1);
 
