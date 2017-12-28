@@ -32,6 +32,10 @@
     <result column="protect_value" jdbcType="INTEGER" property="protectValue" />
     <result column="culture_value" jdbcType="INTEGER" property="cultureValue" />
     <result column="dynasty" jdbcType="VARCHAR" property="dynasty" />
+    <result column="urn" jdbcType="VARCHAR" property="urn" />
+    <result column="transformed_urn" jdbcType="VARCHAR" property="transformedUrn" />
+    <result column="bucket_key" jdbcType="VARCHAR" property="bucketKey" />
+    <result column="model_name" jdbcType="VARCHAR" property="modelName" />
   </resultMap>
   <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.museum.api.common.orm.model.Relic">
     <!--
@@ -114,7 +118,7 @@
     id, `name`, pic_url, code, relic_type, amount, `level`, `size`, weight, attrition_rate, 
     `application`, craft, material, shape, feature, cultural_connotation, required_tech, 
     area, age, create_by, create_time, update_by, update_time, protect_value, culture_value, 
-    dynasty
+    dynasty, urn, transformed_urn, bucket_key, model_name
   </sql>
   <sql id="Blob_Column_List">
     <!--
@@ -207,7 +211,9 @@
       required_tech, area, age, 
       create_by, create_time, update_by, 
       update_time, protect_value, culture_value, 
-      dynasty, introduction)
+      dynasty, urn, transformed_urn, 
+      bucket_key, model_name, introduction
+      )
     values (#{name,jdbcType=VARCHAR}, #{picUrl,jdbcType=VARCHAR}, #{code,jdbcType=VARCHAR}, 
       #{relicType,jdbcType=INTEGER}, #{amount,jdbcType=VARCHAR}, #{level,jdbcType=VARCHAR}, 
       #{size,jdbcType=VARCHAR}, #{weight,jdbcType=VARCHAR}, #{attritionRate,jdbcType=VARCHAR}, 
@@ -216,7 +222,9 @@
       #{requiredTech,jdbcType=VARCHAR}, #{area,jdbcType=VARCHAR}, #{age,jdbcType=VARCHAR}, 
       #{createBy,jdbcType=INTEGER}, #{createTime,jdbcType=BIGINT}, #{updateBy,jdbcType=INTEGER}, 
       #{updateTime,jdbcType=BIGINT}, #{protectValue,jdbcType=INTEGER}, #{cultureValue,jdbcType=INTEGER}, 
-      #{dynasty,jdbcType=VARCHAR}, #{introduction,jdbcType=LONGVARCHAR})
+      #{dynasty,jdbcType=VARCHAR}, #{urn,jdbcType=VARCHAR}, #{transformedUrn,jdbcType=VARCHAR}, 
+      #{bucketKey,jdbcType=VARCHAR}, #{modelName,jdbcType=VARCHAR}, #{introduction,jdbcType=LONGVARCHAR}
+      )
   </insert>
   <insert id="insertSelective" parameterType="com.museum.api.common.orm.model.Relic">
     <!--
@@ -303,6 +311,18 @@
       <if test="dynasty != null">
         dynasty,
       </if>
+      <if test="urn != null">
+        urn,
+      </if>
+      <if test="transformedUrn != null">
+        transformed_urn,
+      </if>
+      <if test="bucketKey != null">
+        bucket_key,
+      </if>
+      <if test="modelName != null">
+        model_name,
+      </if>
       <if test="introduction != null">
         introduction,
       </if>
@@ -382,6 +402,18 @@
       </if>
       <if test="dynasty != null">
         #{dynasty,jdbcType=VARCHAR},
+      </if>
+      <if test="urn != null">
+        #{urn,jdbcType=VARCHAR},
+      </if>
+      <if test="transformedUrn != null">
+        #{transformedUrn,jdbcType=VARCHAR},
+      </if>
+      <if test="bucketKey != null">
+        #{bucketKey,jdbcType=VARCHAR},
+      </if>
+      <if test="modelName != null">
+        #{modelName,jdbcType=VARCHAR},
       </if>
       <if test="introduction != null">
         #{introduction,jdbcType=LONGVARCHAR},
@@ -483,6 +515,18 @@
       <if test="record.dynasty != null">
         dynasty = #{record.dynasty,jdbcType=VARCHAR},
       </if>
+      <if test="record.urn != null">
+        urn = #{record.urn,jdbcType=VARCHAR},
+      </if>
+      <if test="record.transformedUrn != null">
+        transformed_urn = #{record.transformedUrn,jdbcType=VARCHAR},
+      </if>
+      <if test="record.bucketKey != null">
+        bucket_key = #{record.bucketKey,jdbcType=VARCHAR},
+      </if>
+      <if test="record.modelName != null">
+        model_name = #{record.modelName,jdbcType=VARCHAR},
+      </if>
       <if test="record.introduction != null">
         introduction = #{record.introduction,jdbcType=LONGVARCHAR},
       </if>
@@ -523,6 +567,10 @@
       protect_value = #{record.protectValue,jdbcType=INTEGER},
       culture_value = #{record.cultureValue,jdbcType=INTEGER},
       dynasty = #{record.dynasty,jdbcType=VARCHAR},
+      urn = #{record.urn,jdbcType=VARCHAR},
+      transformed_urn = #{record.transformedUrn,jdbcType=VARCHAR},
+      bucket_key = #{record.bucketKey,jdbcType=VARCHAR},
+      model_name = #{record.modelName,jdbcType=VARCHAR},
       introduction = #{record.introduction,jdbcType=LONGVARCHAR}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
@@ -559,7 +607,11 @@
       update_time = #{record.updateTime,jdbcType=BIGINT},
       protect_value = #{record.protectValue,jdbcType=INTEGER},
       culture_value = #{record.cultureValue,jdbcType=INTEGER},
-      dynasty = #{record.dynasty,jdbcType=VARCHAR}
+      dynasty = #{record.dynasty,jdbcType=VARCHAR},
+      urn = #{record.urn,jdbcType=VARCHAR},
+      transformed_urn = #{record.transformedUrn,jdbcType=VARCHAR},
+      bucket_key = #{record.bucketKey,jdbcType=VARCHAR},
+      model_name = #{record.modelName,jdbcType=VARCHAR}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -646,6 +698,18 @@
       <if test="dynasty != null">
         dynasty = #{dynasty,jdbcType=VARCHAR},
       </if>
+      <if test="urn != null">
+        urn = #{urn,jdbcType=VARCHAR},
+      </if>
+      <if test="transformedUrn != null">
+        transformed_urn = #{transformedUrn,jdbcType=VARCHAR},
+      </if>
+      <if test="bucketKey != null">
+        bucket_key = #{bucketKey,jdbcType=VARCHAR},
+      </if>
+      <if test="modelName != null">
+        model_name = #{modelName,jdbcType=VARCHAR},
+      </if>
       <if test="introduction != null">
         introduction = #{introduction,jdbcType=LONGVARCHAR},
       </if>
@@ -683,6 +747,10 @@
       protect_value = #{protectValue,jdbcType=INTEGER},
       culture_value = #{cultureValue,jdbcType=INTEGER},
       dynasty = #{dynasty,jdbcType=VARCHAR},
+      urn = #{urn,jdbcType=VARCHAR},
+      transformed_urn = #{transformedUrn,jdbcType=VARCHAR},
+      bucket_key = #{bucketKey,jdbcType=VARCHAR},
+      model_name = #{modelName,jdbcType=VARCHAR},
       introduction = #{introduction,jdbcType=LONGVARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
@@ -716,7 +784,11 @@
       update_time = #{updateTime,jdbcType=BIGINT},
       protect_value = #{protectValue,jdbcType=INTEGER},
       culture_value = #{cultureValue,jdbcType=INTEGER},
-      dynasty = #{dynasty,jdbcType=VARCHAR}
+      dynasty = #{dynasty,jdbcType=VARCHAR},
+      urn = #{urn,jdbcType=VARCHAR},
+      transformed_urn = #{transformedUrn,jdbcType=VARCHAR},
+      bucket_key = #{bucketKey,jdbcType=VARCHAR},
+      model_name = #{modelName,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
 </mapper>

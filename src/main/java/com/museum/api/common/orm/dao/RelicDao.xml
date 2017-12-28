@@ -31,6 +31,10 @@
             re.protect_value AS protectValue,
             re.culture_value AS cultureValue,
             re.dynasty,
+            re.transformed_urn AS transformedUrn,
+            re.bucket_key AS bucketKey,
+            re.model_name AS modelName,
+            re.urn,
             (
             SELECT group_concat(fr.id, "::", fr.url) FROM
             relic_images AS ri
