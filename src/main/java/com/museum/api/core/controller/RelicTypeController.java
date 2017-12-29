@@ -35,19 +35,17 @@ public class RelicTypeController extends BaseController{
 		BaseModel<String> result = new BaseModel<>();
 		
 		JSONObject json = this.convertRequestBody();
+
+		RelicType relicType = JSONObject.toJavaObject(json, RelicType.class);
 		
-		String relicTypeName = json.getString("relicTypeName");
-		
-		relicTypeName = relicTypeName.trim();
-		
-		if("".equals(relicTypeName)) {
+		if("".equals(relicType.getRelicType().trim())) {
 			result.setMessage("分类名不能为空");
 			result.setStatus(Constants.FAIL_INVALID_DATA);
 			return result;
 		}
 		
 		try {
-			relicTypeService.addOneRelicType(relicTypeName, user.getId());
+			relicTypeService.addOneRelicType(relicType, user.getId());
 		}
 		catch(InheaterSOAException e) {
 			result.setMessage(e.getMessage());

@@ -22,25 +22,22 @@ public class RelicTypeService {
 
     /**
      * 添加一个分类
-     * @param relicTypeName
+     * @param relicType
      * @return
      */
 	@Transactional
-	public int addOneRelicType(String relicTypeName, Integer userId) {
+	public int addOneRelicType(RelicType relicType, Integer userId) {
 		
 		RelicTypeExample example = new RelicTypeExample();
 		
-		example.createCriteria().andRelicTypeEqualTo(relicTypeName);
+		example.createCriteria().andRelicTypeEqualTo(relicType.getRelicType());
 		
 		if(!relicTypeMapper.selectByExample(example).isEmpty()) {
 			throw new InheaterSOAException(InheaterSOAExceptionCode.BUNIESS_EXCEPTION, InheaterSOAExceptionType.BUSINESS,"该分类已存在");
 		}
 		
 		Long currentTime = System.currentTimeMillis();
-		
-		RelicType relicType = new RelicType();
-		
-		relicType.setRelicType(relicTypeName);
+
 		relicType.setCreateBy(userId);
 		relicType.setUpdateBy(userId);
 		relicType.setCreateTime(currentTime);
